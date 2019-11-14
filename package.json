@@ -1,0 +1,19 @@
+{
+  "name": "typescriptasgn6",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -r ts-node/register src/**/test.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KevinKrein/TypescriptAsgn6.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KevinKrein/TypescriptAsgn6/issues"
+  },
+  "homepage": "https://github.com/KevinKrein/TypescriptAsgn6#readme"
+}

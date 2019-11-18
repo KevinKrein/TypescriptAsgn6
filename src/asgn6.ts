@@ -178,8 +178,8 @@ export function interp(expr: ExprC, env: Env): Value {
             return new CloV(lam.params, lam.body, env);
         }
         case (expr instanceof IfC): {
-            let ifc = <IfC>expr;
-            let testCond = interp(ifc.test, env);
+            let ifc: IfC = <IfC>expr;
+            let testCond: ExprC = interp(ifc.test, env);
             if (!(testCond instanceof BoolV))
                 throw new Error("RGME: Test condition must produce a boolean value");
             else {
@@ -189,27 +189,27 @@ export function interp(expr: ExprC, env: Env): Value {
             }
         }
         case (expr instanceof AppC): {
-            let appc = <AppC>expr;
-            let funVal = interp(appc.operation, env);
+            let appc: AppC = <AppC>expr;
+            let funVal: Value = interp(appc.operation, env);
             switch (true) {
                 case (funVal instanceof CloV): {
-                    let clov = <CloV>funVal;
+                    let clov: CloV = <CloV>funVal;
                     if (clov.params.length != appc.args.length)
                         throw new Error("RGME: Incorrect number of arguments to function");
                     else {
                         let interpretedArgs: Value[] = new Array();
 
-                        for (let i = 0; i < appc.args.length; i++)
+                        for (let i: number = 0; i < appc.args.length; i++)
                             interpretedArgs.push(interp(appc.args[i], env));
 
-                        let newEnv = bindAllParams(clov.params, interpretedArgs, clov.env);
+                        let newEnv: Env = bindAllParams(clov.params, interpretedArgs, clov.env);
                         return interp(clov.body, newEnv);
                     }
                 }
                 case (funVal instanceof PrimOpV): {
                     let interpretedArgs: Value[] = new Array();
 
-                    for (let i = 0; i < appc.args.length; i++)
+                    for (let i: number = 0; i < appc.args.length; i++)
                         interpretedArgs.push(interp(appc.args[i], env));
 
                     switch (interpretedArgs.length) {
@@ -233,11 +233,11 @@ export function interp(expr: ExprC, env: Env): Value {
 // in the Environment and return the resulting Environment
 export function bindAllParams(params: Array<String>, args: Array<Value>, env: Env): Env {
     // Make a copy of the new environment
-    let newEnv = new Env(new Array<Binding>());
-    for (let i = 0; i < env.bindings.length; i++)
+    let newEnv: Env = new Env(new Array<Binding>());
+    for (let i: number = 0; i < env.bindings.length; i++)
         newEnv.bindings.push(env.bindings[i]);
 
-    for (let i = 0; i < params.length; i++)
+    for (let i: number = 0; i < params.length; i++)
         newEnv.bindings.unshift(new Binding(params[i], args[i]));
     return newEnv;
 }
@@ -258,7 +258,7 @@ export function serialize(val: Value): String {
             return (<NumC>val).num.toString();
         }
         case (val instanceof BoolV): {
-            let b = (<BoolV>val).bool;
+            let b: Boolean = (<BoolV>val).bool;
             switch (b) {
                 case (true): {
                     return "true";
@@ -293,8 +293,8 @@ export function myBinaryOperator(op: String, left: Value, right: Value): Value {
         }
         default: {
             if ((left instanceof NumV) && (right instanceof NumV)) {
-                let l = (<NumV>left).num.valueOf();
-                let r = (<NumV>right).num.valueOf();
+                let l: number = (<NumV>left).num.valueOf();
+                let r: number = (<NumV>right).num.valueOf();
                 switch (op) {
                     case ("+"): {
                         return new NumV(l + r);
@@ -323,7 +323,7 @@ export function myBinaryOperator(op: String, left: Value, right: Value): Value {
 }
 
 // Pseudo tests to eyeball results
-let ans = serialize(new NumV(3));
+let ans: String = serialize(new NumV(3));
 console.log("NumV: ", ans);
 
 ans = serialize(new BoolV(true));
@@ -338,7 +338,7 @@ console.log("CloV: ", ans);
 ans = serialize(new PrimOpV("+"));
 console.log("PrimOpV: ", ans);
 
-let sym = lookup("+", topEnv);
+let sym: Value = lookup("+", topEnv);
 console.log("Value: ", sym);
 
 try {
@@ -358,13 +358,13 @@ catch (e) {
     console.log("Interp: ", e.message);
 }
 
-let val = interp(new IdC("true"), topEnv);
+let val: Value = interp(new IdC("true"), topEnv);
 console.log("IdC:", val);
 
 val = interp(new LamC(["x", "y", "z"], new NumC(5)), topEnv);
 console.log("LamC: ", val);
 
-let binaryAns = myBinaryOperator("equal", new NumV(1), new NumV(1));
+let binaryAns: Value = myBinaryOperator("equal", new NumV(1), new NumV(1));
 console.log("myBinaryOperator1: ", binaryAns);
 
 binaryAns = myBinaryOperator("equal", new NumC(4), new NumC(5));
@@ -403,7 +403,7 @@ binaryAns = myBinaryOperator("<=", new NumV(1), new NumV(4));
 console.log("myBinaryOperator10: ", binaryAns);
 
 
-let interpretedExpr = interp(new AppC(new IdC("+"), [new NumC(1), new NumC(4)]), topEnv);
+let interpretedExpr: Value = interp(new AppC(new IdC("+"), [new NumC(1), new NumC(4)]), topEnv);
 console.log("interp1: ", interpretedExpr);
 
 interpretedExpr = interp(new AppC(new IdC("+"), [new AppC(new IdC("*"), [new NumC(5), new NumC(3)]),
@@ -450,7 +450,7 @@ catch (e) {
     console.log("interp6: ", e.message);
 }
 
-let newEnv = bindAllParams(["x"], [new NumV(4)], topEnv);
+let newEnv: Env = bindAllParams(["x"], [new NumV(4)], topEnv);
 console.log("newEnv=topEnv: ", deepEqual(newEnv, topEnv));
 console.log(newEnv.bindings);
 

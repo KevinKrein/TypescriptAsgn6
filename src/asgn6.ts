@@ -1,13 +1,13 @@
 import * as deepEqual from "deep-equal";
 
 // Parent class for the ExprC AST data definitions
-class ExprC {
+export class ExprC {
     constructor() {
     }
 }
 
 // AST data definition for numbers
-class NumC extends ExprC {
+export class NumC extends ExprC {
     num: Number;
     constructor(num: Number) {
         super();
@@ -16,7 +16,7 @@ class NumC extends ExprC {
 }
 
 // AST data definition for Strings
-class StrC extends ExprC {
+export class StrC extends ExprC {
     str: String;
     constructor(str: String) {
         super();
@@ -25,7 +25,7 @@ class StrC extends ExprC {
 }
 
 // AST data definition for identifiers/variables
-class IdC extends ExprC {
+export class IdC extends ExprC {
     symbol: String;
     constructor(symbol: String) {
         super();
@@ -34,7 +34,7 @@ class IdC extends ExprC {
 }
 
 // AST data definition for function calls
-class AppC extends ExprC {
+export class AppC extends ExprC {
     operation: ExprC;
     args: Array<ExprC>;
     constructor(operation: ExprC, args: Array<ExprC>) {
@@ -45,7 +45,7 @@ class AppC extends ExprC {
 }
 
 // AST data definition for conditionals
-class IfC extends ExprC {
+export class IfC extends ExprC {
     test: ExprC;
     then: ExprC;
     else: ExprC;
@@ -58,7 +58,7 @@ class IfC extends ExprC {
 }
 
 // AST data definition for functions
-class LamC extends ExprC {
+export class LamC extends ExprC {
     params: Array<String>;
     body: ExprC;
     constructor(params: Array<String>, body: ExprC) {
@@ -69,13 +69,13 @@ class LamC extends ExprC {
 }
 
 //Parent class for all Values that can be returned by the evaluator
-class Value {
+export class Value {
     constructor() {
     }
 }
 
 // Data definition for representing Numbers as values
-class NumV extends Value {
+export class NumV extends Value {
     num: Number;
     constructor(num: Number) {
         super();
@@ -84,7 +84,7 @@ class NumV extends Value {
 }
 
 // Data definition for representing Strings as values
-class StrV extends Value {
+export class StrV extends Value {
     str: String;
     constructor(str: String) {
         super();
@@ -93,7 +93,7 @@ class StrV extends Value {
 }
 
 // Data definition for representing Booleans as values
-class BoolV extends Value {
+export class BoolV extends Value {
     bool: Boolean;
     constructor(bool: Boolean) {
         super();
@@ -102,7 +102,7 @@ class BoolV extends Value {
 }
 
 // Data definition for representing Functions/Closures as values
-class CloV extends Value {
+export class CloV extends Value {
     params: Array<String>;
     body: ExprC;
     env: Env;
@@ -115,7 +115,7 @@ class CloV extends Value {
 }
 
 // Data definition for representing Primitive Operands as values
-class PrimOpV extends Value {
+export class PrimOpV extends Value {
     operator: String;
     constructor(operator: String) {
         super();
@@ -124,7 +124,7 @@ class PrimOpV extends Value {
 }
 
 //Data definition for the Bindings in the Enironment
-class Binding {
+export class Binding {
     name: String;
     val: Value;
     constructor(name: String, val: Value) {
@@ -134,7 +134,7 @@ class Binding {
 }
 
 // Data definition for the Environment, an Array of Bindings
-class Env {;
+export class Env {;
     bindings: Array<Binding>;
     constructor(bindings: Binding[]) {
         this.bindings = bindings;
@@ -470,5 +470,3 @@ console.log("TopInterp2: ", topInterp(new AppC(new AppC(new LamC(["x"], new LamC
     [new IdC("x"), new IdC("y")]))),
     [new NumC(5)]),
     [new NumC(7)])));
-
-export default interp;
